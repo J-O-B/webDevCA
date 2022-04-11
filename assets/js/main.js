@@ -150,14 +150,15 @@ $('#contactBtn').click(function(event){
     time = $('#time').val();
     bodyContact = $('#bodyContact').val();
     url = `https://nci-ca-api.herokuapp.com/email?name=${user}&email=${email}&subject=${subject}&message=${bodyContact}&time=${time}` 
-    $.post(url, function(e){
+    $.get(url, function(e){
         feedback = e;
+        $('.form-feedback').hide();
+        $('#contact-form').hide('fade', {duration: 1000});
+        $('#contact-form').promise().done(function(){
+            $('.form-feedback').text(feedback);
+            $('.form-feedback').show('slide', {duration: 1500});
+        })
     });
-    $('.form-feedback').hide();
-    $('#contact-form').hide('fade', {duration: 1000});
-    $('#contact-form').promise().done(function(){
-        $('.form-feedback').show('slide', {duration: 1500});
-    })
 });
 
 function fullNews(id){
