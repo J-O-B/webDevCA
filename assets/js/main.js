@@ -64,13 +64,14 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
         summary = data[i]['Summary'];
         text = data[i]['Text'];
         img = data[i]['Img'];
+        date = data[i]['Date'];
         news = news + `
-        <div class="col-12 col-md-3 text-center my-3 px-2">
+        <div class="col-12 col-md-6 col-lg-3 outer-article text-center my-3 px-2">
             <div class="row px-2 py-3 m-3 article">
                 <img class="newsImg" src="${img}">
-                <h3 class="h4">${title}</h3>
-                <cite class="small">${author}</cite><br>
-                <cite class="small">${$.datepicker.formatDate('dd/mm/yy', new Date())}</cite><br>
+                <h5 class="small">${title}</h3>
+                <cite class="small">Author:<br>${author}</cite><br>
+                <cite class="small">Published:<br>${date}</cite><br>
                 <button type="button" class="btn custNewsBtn" data-bs-toggle="modal" data-bs-target="#example${i}Modal">
                     Read More
                 </button>
@@ -117,20 +118,20 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
     $('#newsLoad').hide('fade', {duration: 500});
     $('#newsLoad').promise().done(function(){
         $('#newsStories').append(news).show('fade', {duration: 1500});
-        // $('.newsFullModal').each(function(){
-        //     $(this).hide();
-        //     console.log('h');
-        // });
-        // let h=0;
-        // $('.article').each(function(){
-        //     if ($(this).height() > h){
-        //         h = $(this).height();
-        //     }
-        // });
-        // $('.article').each(function(){
-        // });
+        equalNewsHeight();
     });
 });
+let newsHeight = 0;
+function equalNewsHeight(){
+    $('.outer-article').each(function(){
+        if ($(this).outerHeight() > newsHeight){
+            newsHeight = $(this).height();
+        };
+    });
+    $('.article').each(function(){
+        $(this).height(newsHeight);
+    });
+}
 
 let nowDate = new Date(); 
 let fullTime = nowDate.getDate() + "/"
@@ -153,11 +154,8 @@ $('#contactBtn').click(function(event){
     $.get(url, function(e){
         feedback = e;
         $('.form-feedback').hide();
-        $('#contact-form').hide('fade', {duration: 1000});
-        $('#contact-form').promise().done(function(){
-            $('.form-feedback').text(feedback);
-            $('.form-feedback').show('slide', {duration: 1500});
-        })
+        $('.form-feedback').text(feedback);
+        $('.form-feedback').show('slide', {duration: 1500});
     });
 });
 
