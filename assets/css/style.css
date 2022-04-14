@@ -19,11 +19,14 @@ body{
     background: linear-gradient(180deg, rgba(40,59,99, 1), #1cb5e0);
     border-radius: 5px;
 }
+
+/* Reusable classes */
 .relative{
     position: relative;
 }
-
-/* Font Specific */
+.hidden{
+    display: none;
+}
 h1, h2, h3{
     font-family: 'Rubik Glitch', sans-serif;
 }
@@ -33,9 +36,6 @@ h1{
 p{
     font-family: 'Rajdhani', sans-serif;
     font-weight: 600;
-}
-nav a{
-    font-style: italic;
 }
 .dark-color{
     color: rgba(40,59,99, 1);
@@ -49,8 +49,28 @@ nav a{
 .smaller{
     font-size: smaller;
 }
+.w-15{
+    width: 15%;
+}
+.w-85{
+    width: 85%;
+}
+.custBtn{
+    padding: 10px 25px;
+    border: 2px solid rgb(25,25,25);
+    border-radius: 20px;
+    color:#fff !important;
+    font-weight: bolder !important;
+    background-image: linear-gradient(135deg, rgba(40,59,99, 1) 40%, #1cb5e0);
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.3), 10px 10px 15px rgba(0,0,0,0.5);
+    transition: all 0.2s ease-in-out;
+}
+.custBtn:hover{
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.3), 5px 5px 5px rgba(0,0,0,0.5);
+    transition: all 0.2s ease-in-out;
+}
 
-
+/* Separator style */
 .section-sep{
     overflow: hidden;
     position: relative;
@@ -68,6 +88,9 @@ nav a{
 }
 
 /* Navbar */
+nav a{
+    font-style: italic;
+}
 .nav-link{
     border-bottom: 1px solid rgba(0,0,0,0);
     border-top: 1px solid rgba(0,0,0,0);
@@ -89,6 +112,31 @@ nav a{
     background-size: cover;
     background-position: right center;
 }
+#hero h1{
+    font-size: 72px;
+}
+#hero h2{
+    font-size: 45px;
+}
+#hero h3{
+    font-size: 22px;
+}
+
+/* About Section */
+.equalAboutHeight{
+    overflow: hidden;
+}
+#aboutCarousel{
+    max-height: 225px;
+}
+#aboutCarousel img{
+    max-height: 200px;
+    width: auto;
+}
+.innerPadding{
+    padding-left: 15%;
+    padding-right: 15%;
+}
 
 
 /* Features */
@@ -105,14 +153,39 @@ nav a{
     background-color: rgb(25,25,25);
     color: #fff;
     padding: 20px 30px;
-    border-radius: 50px;
+    border-radius: 50px 50px 0 50px;
 }
 #contact-form{
     width: 100%;
 }
-
+#map{
+    border-top-left-radius: 50px;
+    border-top-right-radius: 50px;
+    width: 100%;
+}
+#contactDetails{
+    border-bottom-right-radius: 50px;
+    color: #fff;
+    background-color: rgb(25,25,25);
+}
 /* Pricing Section */
-
+.priceCard{
+    border-radius: 30px;
+    background-image: linear-gradient(135deg, rgba(25,25,25, 1), rgba(40,59,99, 1) 60%, #1cb5e0);
+    color: #fff;
+    padding: 20px 5px;
+    box-shadow: 5px 8px 5px rgba(25,25,25, .7), 10px 15px 10px rgba(25,25,25, .5), 0px 0px 30px rgba(25,25,25, .5);
+    transition: all .3s ease-out;
+}
+.priceCard:hover{
+    box-shadow: 2px 2px 3px rgba(25,25,25, .7), 5px 5px 10px rgba(25,25,25, .5), 0px 0px 20px rgba(25,25,25, .5);
+    transition: all .2s ease-in;
+}
+.priceCarouselContainer{
+    height: 100px;
+    padding-top: 20px;
+    margin-bottom:50px;
+}
 
 /* News Section */
 #newsStories{
@@ -163,6 +236,7 @@ nav a{
 .article .modal{
     color: #000 !important;
 }
+
 .custNewsBtn{
     margin-top: 15px;
     width: 70% !important;
@@ -180,10 +254,29 @@ nav a{
     transition: all 0.2s ease-in-out;
 }
 
-
-.hidden{
-    display: none;
+/* Footer Section */
+#footer{
+    background-color: rgba(25,25,25,1);
+    color: #fff;
 }
+.social-icon{
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    padding:5px;
+}
+.top-footer>div{
+    padding-top:10px;
+    padding-bottom:10px;
+    border-bottom: 1px solid rgba(255,255,255,.7);
+}
+.bottom-footer>div{
+
+    padding-top:10px;
+}
+
 
 /* Effects & Other */
 .blink{
@@ -194,3 +287,52 @@ nav a{
         opacity: 0;
     }
 }
+@media only screen and (max-width: 767px) {
+    .priceCarouselContainer{
+        height: 150px;
+        padding-top: 20px;
+        margin-bottom:50px;
+    }
+}
+@media only screen and (max-width: 500px) {
+    .priceCarouselContainer{
+        height: 200px;
+        padding-top: 20px;
+        margin-bottom:50px;
+    }
+    .section-sep{
+        height:70px;
+    }
+    #hero h1{
+        font-size: 45px;
+    }
+    #hero h2{
+        font-size: 35px;
+    }
+    #hero h3{
+        font-size: 20px;
+    }
+}
+@media only screen and (max-width: 991px) {
+    .contact-card{
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    #map{
+        border-top-right-radius: 0;
+        border-top-left-radius: 0;
+    }
+    #contactDetails{
+        border-bottom-right-radius: 0;
+    }
+}
+@media only screen and (min-width: 1125px) {
+    #pricingCardRow{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left:10%;
+        padding-right:10%;
+    }
+}
+
