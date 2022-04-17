@@ -2,7 +2,9 @@
 $(document).ready(function(){
     $('#pricingContent').hide();
     $('.featBack').hide();
+    $('.featureText').hide();
     heroCardCenter();
+    featureHeight();
     typewrite();
 });
 
@@ -25,48 +27,58 @@ function heroCardCenter(){
 };
 // Animated hero text
 function typewrite(){
+    // Text blobs we want to feed into the function.
     let options = ['Vulnerability Assessment', 'Threat Modelling', 'Malware Analysis', 'Penetration Testing', 'Mobile Security', 'Email Security', 'CyberSecurity Solutions'];
     let textPos = 0;
-    let speedWrite = 125;
-    let speedRemove = 85;
+    let speedWrite = 150;
+    let speedRemove = 100;
+
+    // Variable Item will be used to select sections of options array
     let item = 0;
     function write(){
-        $('.typewrite').html(options[item].substring(0, textPos) + '<span class="blink">\u25ae<span>');
+        $('.typewrite').html(options[item].substring(0, textPos) + '<span class="blink">_<span>');
+        // If we are removing
         if (textPos ++ != options[item].length + 1){
             setTimeout(write, speedWrite);
         }else{
             if (item < 6){
-                sleep(1000);
+                sleep(1500);
                 remove();
             }
         }
     };
     function remove(){
-        $('.typewrite').html(options[item].substring(textPos, 0) + '<span class="blink">\u25ae<span>');
+        $('.typewrite').html(options[item].substring(textPos, 0) + '<span class="blink">_<span>');
         if (textPos -- != -1){
             setTimeout(remove, speedRemove);
         }else{
             item += 1;
-            sleep(200);
+            sleep(300);
             write();
         }
     };
+    // Call the inner function to start
     write();
 };
 
 // --------------------------------------------------- News section
 let news = ''
 let loaded = 0;
+// Get request to custom api.
 $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
     $('#newsStories').hide();
     let count = Object.keys(data).length;
     for (i=0; i<count; i++){
+        // Specific targets that are returned in JSON format
         title = data[i]['Title'];
         author = data[i]['Author'];
-        summary = data[i]['Summary'];
-        text = data[i]['Text'];
+        summary = data[i]['Summary'].replace('\n', "<br><br>");
+        text = data[i]['Text'].replace('\n', "<br><br>");
         img = data[i]['Img'];
         date = data[i]['Date'];
+        url = data[i]['Url'];
+        
+        // Output using bootstrap classes and dynamic ID's & classes
         news = news + `
         <div class="col-12 col-md-6 col-lg-3 outer-article text-center my-3 px-2 d-flex justify-content-center align-items-center">
             <div class="row px-2 py-3 m-3 article">
@@ -91,18 +103,18 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
                                     <div class="col-10 offset-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
                                         <img class="modalNewsImg" src="${img}">
                                         <p class="small text-center">
-                                            Post From ${author} At <a href="https://thehackernews.com/" target="_blank" rel="noreferrer noopener">TheHackerNews.com</a>
+                                            Post From ${author} At <a href="${url}" target="_blank" rel="noreferrer noopener">TheHackerNews.com</a>
                                         </p>
                                     </div>
                                 </div>
                                 <div class="newsSummaryModal${i}">
-                                    <p class="fst-italic">${summary}</p>
+                                    <p class="larger fst-italic">${summary}</p>
                                     <div class="d-flex justify-content-center">
                                         <button class="readFullNews" onClick="fullNews(${i})">Full Story</button>
                                     </div>
                                 </div>
                                 <div class="newsFullModal${i} hidden">
-                                    <p class="fst-italic">${text}</p>
+                                    <p class="larger fst-italic">${text}</p>
                                     <div class="d-flex justify-content-center">
                                         <button class="readSummaryNews" onClick="summaryNews(${i})">Summary</button>
                                     </div>
@@ -117,13 +129,14 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
             </div>       
         </div>`;
     }
+    // Styling related, when loaded hide the gif loader and show news
     $('#newsLoad').hide('fade', {duration: 500});
     $('#newsLoad').promise().done(function(){
-        $('#newsStories').append(news).show('fade', {duration: 1500});
+        $('#newsStories').html(news).show('fade', {duration: 1500});
         equalNewsHeight();
     });
 });
-// Equal the news card heights
+// Simple function to dynamically apply css to news cards.
 let newsHeight = 0;
 function equalNewsHeight(){
     $('.outer-article').each(function(){
@@ -136,8 +149,8 @@ function equalNewsHeight(){
     });
 };
 
-// Functions to toggle between summary and full article (news).
 function fullNews(id){
+    // This function will hide the 'summary news' and display the 'full news article'
     $(`.newsSummaryModal${id}`).hide('fade', {duration: 500});
     $(`.newsSummaryModal${id}`).promise().done(function(){
         $(`.newsSummaryModal${id}`).toggleClass('hidden');
@@ -149,6 +162,7 @@ function fullNews(id){
     });
 };
 function summaryNews(id){
+    // This function will hide the full news article and display the short summary version.
     $(`.newsFullModal${id}`).hide('fade', {duration: 500});
     $(`.newsFullModal${id}`).promise().done(function(){
         $(`.newsFullModal${id}`).toggleClass('hidden');
@@ -163,6 +177,7 @@ function summaryNews(id){
 
 // ---------------------------------------------- Contact Section
 
+// Date javascript to apply a timestamp to the contact form
 let nowDate = new Date(); 
 let fullTime = nowDate.getDate() + "/"
             + (nowDate.getMonth()+1)  + "/" 
@@ -174,19 +189,145 @@ $('#time').val(fullTime);
 
 let feedback = '';
 $('#contactBtn').click(function(event){
+    // prevent page reload and get the data from form.
     event.preventDefault();
-    user = $('#firstName').val() + " " + $('#lastName').val();
-    email = $('#email').val();
-    subject = $('#subject').val();
-    time = $('#time').val();
-    bodyContact = $('#bodyContact').val();
-    url = `https://nci-ca-api.herokuapp.com/email?name=${user}&email=${email}&subject=${subject}&message=${bodyContact}&time=${time}` 
-    $.get(url, function(e){
-        feedback = e;
-        $('.form-feedback').hide();
-        $('.form-feedback').text(feedback);
-        $('.form-feedback').show('slide', {duration: 1500});
-    });
+    
+    // unsecure client side method of sanitizing a form, but for this project, this method
+    // shows one way to validate a form on the client side.
+    let userCheck = false;
+
+    let fname = $('#firstName').val();
+    let lname = $('#lastName').val();
+    let email = $('#email').val();
+    let subject = $('#subject').val();
+    let bodyText = $('#bodyContact').val();
+    
+    function checkChars(data){
+        // simple reusable function to check for illegal chars (whitelist method)
+        allowed = "abcdefghijklmnopqrstuvwxyz 0123456789 '-,.@+&";
+        good = '';
+        bad = '';
+        for (i=0; i<data.length; i++){
+            char = data[i].toLowerCase();
+            for (a=0; a<allowed.length;a++){
+                if (allowed.includes(char) == true){
+                    good = good + char;
+                }else{
+                    bad = bad + char;
+                }
+            }
+            if (bad.length != 0){
+                return false
+            }
+        }
+        return true
+    }
+
+    let firstNameCheck = false;
+    let lastNameCheck = false;
+    let emailCheck = false;
+    let subjectCheck = false;
+    let bodyCheck = false;
+    
+    // individual functions on each input field
+    function firstNameSanitize(){
+        if (fname.length > 2){
+            // length is ok, now check chars
+            let fnameChars = checkChars(fname);
+            if (fnameChars == true){
+                $('.fname').css('color', '#00FF00').text('First Name Looks Good');
+                firstNameCheck = true;
+            }else if (fnameChars == false){
+                $('.fname').css('color', '#FF0000').text('Illegal Character(s)');
+            }
+        }else{
+            // name is short, fail.
+            $('.fname').css('color', '#FF0000').text('First Name Is Too Short, Please Include Your Full First Name');
+        }
+    }
+    
+    function lastNameSanitize(){
+        if (lname.length > 5){
+            // length is ok, now check chars
+            let lnameChars = checkChars(lname);
+            if (lnameChars == true){
+                $('.lname').css('color', '#00FF00').text('Last Name Looks Good');
+                lastNameCheck = true;
+            }else if (lnameChars == false){
+                $('.lname').css('color', '#FF0000').text('Illegal Character(s)');
+            }
+        }else{
+            // name is short, fail.
+            $('.lname').css('color', '#FF0000').text('Last Name Is Too Short, Please Include Your Full Last Name');
+        }
+    }
+
+    function emailSanitize(){
+        if (email.length > 10){
+            // length is ok, now check chars
+            let emailChars = checkChars(email);
+            if (emailChars == true && email.includes('@')){
+                $('.emailFeed').css('color', '#00FF00').text('Email Looks Good');
+                emailCheck = true;
+            }else if (lnameChars == false){
+                $('.emailFeed').css('color', '#FF0000').text('Please Check Your Email Input');
+            }
+        }else{
+            // too short, fail.
+            $('.emailFeed').css('color', '#FF0000').text('Email Is Too Short, Please Check Your Input');
+        }
+    }
+
+    function subjectSanitize(){
+        if (subject.length > 0){
+            // length is ok, now check chars
+            let subjectChars = checkChars(subject);
+            if (subjectChars == true){
+                $('.formSubject').css('color', '#00FF00').text('Subject Looks Good!');
+                subjectCheck = true;
+            }else if (subjectChars == false){
+                $('.formSubject').css('color', '#FF0000').text('Illegal Character(s)');
+            }
+        }else{
+            // name is short, fail.
+            $('.formSubject').css('color', '#FF0000').text('Subject Cannot Be Empty');
+        }
+    }
+
+    function bodySanitize(){
+        if (bodyText.length > 0){
+            // length is ok, now check chars
+            let bodyTextChars = checkChars(bodyText);
+            if (bodyTextChars == true){
+                $('.formBody').css('color', '#00FF00').text('Message Looks Good!');
+                subjectCheck = true;
+            }else if (bodyTextChars == false){
+                $('.formBody').css('color', '#FF0000').text('Illegal Character(s)');
+            }
+        }else{
+            // too short, fail.
+            $('.formBody').css('color', '#FF0000').text('Message Input Cannot Be Empty');
+        }
+    }
+    // call functions
+    firstNameSanitize();
+    lastNameSanitize();
+    emailSanitize();
+    subjectSanitize();
+    bodySanitize();
+
+    if (firstNameCheck == true && lastNameCheck == true && emailCheck ==true && subjectCheck == true && bodyCheck == true){
+        user = $('#firstName').val() + " " + $('#lastName').val();
+
+        time = fullTime;
+        url = `https://nci-ca-api.herokuapp.com/email?name=${user}&email=${email}&subject=${subject}&message=${bodyText}&time=${time}` 
+        $.get(url, function(e){
+            feedback = e;
+            $('.form-feedback').hide();
+            $('.form-feedback').text(feedback);
+            $('.form-feedback').show('slide', {duration: 1500});
+        });
+    }
 });
 
 // Map tile is from openstreetmap, whilst the JS is from LeafletJS. 
@@ -205,15 +346,15 @@ let options = new L.TileLayer(url, {
     maxZoom: 18,
     attribution: attribution,
 });
-var myIcon = L.icon({
+let myIcon = L.icon({
     iconUrl: 'assets/media/pin.png',
     shadowUrl: 'assets/media/shadow.png',
     iconSize: [40, 55],
     iconAnchor: [20, 54],
     shadowSize: [50, 40],
     shadowAnchor: [-3, 40],
-    });
-var maker = L.marker([53.35, -6.25],{icon: myIcon}).addTo(map);
+});
+let maker = L.marker([53.34894043391136, -6.242988972456376],{icon: myIcon}).addTo(map);
 map.setView(new L.LatLng(53.35, -6.25), 13);
 map.addLayer(options);
 
@@ -299,19 +440,23 @@ function features(item){
     $('#featureBody').hide();
     data = {
         1: ['Phone Security','We provide the latest security for mobile devices. Protecting our clients from spyware and other forms of digital surveillance.'],
-        2: ['Email Security',],
-        3: ['Firewalls & Cyber Defense',],
-        4: ['Malware Analysis',],
-        5: ['Cryptography & Encryption',],
-        6: ['Threat Hunting',],
-        7: ['Password & Sensitive Data Protection',],
-        8: ['Phishing Protection',],
+        2: ['Email Security', 'We defend against phishing attacks, through active scanning, employee awareness and other techniques'],
+        3: ['Firewalls & Cyber Defense','Configure and deploy a firewall that secures your assets from malware and other attacks.'],
+        4: ['Malware Analysis', 'We actively analyze malware to keep firewalls and other defenses up to date.'],
+        5: ['Cryptography & Encryption','We provide encryption services that secure your data, even in the event of a data leak.'],
+        6: ['Threat Hunting','SecureX analyze the threats of each client, providing custom threat modelling in each case.'],
+        7: ['Password & Sensitive Data Protection','Via our systems, we provide varying forms of multi factor authentication. We also track leaked passwords to ensure unique and complex passwords are in use.'],
+        8: ['Phishing Protection','Phishing is a common social engineering attack that is often used to steal credentials. We provide active protection against phishing attacks.'],
     }
+    icHeight = $('.icons').height();
     $('.feat_image').parents('.col-6').each(function(index){
         $(this).delay(100 * index).hide('slide', {duration: 300});
     }).promise().then(function(){
         $('#featureHeader').text(data[item][0]);
         $('#featureBody').text(data[item][1]);
+        rowHeight = ($('#featureHeader').height() + $('#featureBody').height());
+        featMargin = (icHeight - rowHeight) / 2;
+        $('#featureHeader').css('margin-top', featMargin+'px');
         $('#featureHeader').show('fade', {duration: 1000});
         $('#featureBody').show('fade', {duration: 1000});
         $('.featBack').show('slide', {duration: 500});
@@ -334,4 +479,9 @@ function backFeat(){
         $(this).show(800);
     })
 
+}
+
+function featureHeight(){
+    let featHeight = $('.featureIcons').height();
+    $('.featureIcons').css('min-height', featHeight+'px');
 }

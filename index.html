@@ -73,12 +73,12 @@
             <div class="container">
                 <div class="row m-0 py-5">
                     <h2 class="h1 fst-italic mt-3 text-center text-sm-start">
-                        Features
+                        <span class="border-bottom border-dark underHeading">Features</span>
                     </h2>
                 </div>
             </div>
-            <div class="container">
-                <div class="row">
+            <div class="container featureIcons">
+                <div class="row icons">
                     <div class="col-6 col-md-4 col-lg-3 my-3" onclick="features(1)">
                         <div class="w-100 d-flex justify-content-center">
                             <img src="./assets/media/vectors/phone.png" alt="" class="feat_image">
@@ -128,7 +128,7 @@
                         <p class="text-center">Phishing Protection</p>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row featInfo">
                     <div class="col-12 text-center">
                         <h2 class="h1" id="featureHeader"></h2>
                         <p class="lead" id="featureBody"></p>
@@ -149,7 +149,7 @@
                 <div class="row m-0 p-0">
                     <div class="col-12">
                         <h2 class="h1 fst-italic mt-3 text-center text-sm-start">
-                            Pricing
+                            <span class="border-bottom border-dark underHeading">Pricing</span>
                         </h2>
                     </div>
                     <div class="col-12 priceCarouselContainer relative">
@@ -470,7 +470,7 @@
             <div class="container">
                 <div class="row m-0 p-0">
                     <h2 class="h1 fst-italic mt-3 text-center text-sm-start">
-                        About SecureX
+                        <span class="border-bottom border-dark underHeading">About SecureX</span>
                     </h2>
                 </div>
             </div>
@@ -561,7 +561,7 @@
             <div class="container">
                 <div class="row m-0 p-0">
                     <h2 class="h1 fst-italic mt-3 text-center text-sm-start">
-                        Latest News
+                        <span class="border-bottom border-dark underHeading">Latest News</span>
                     </h2>
                     <p class="lead fst-italic px-2">
                         The latest security news from around the world courtesy of <u>TheHackerNews</u>. 
@@ -591,8 +591,13 @@
             <div class="container">
                 <div class="row m-0 p-0">
                     <h2 class="h1 fst-italic mt-3 text-center text-sm-start">
-                        Contact Us
+                        <span class="border-bottom border-dark underHeading">Contact Us</span> 
                     </h2>
+                    
+                    <p class="lead fst-italic px-2">
+                        For more information about the company, or the services we offer, please use the form below 
+                        and we will respond in due course. 
+                    </p>
                 </div>
             </div>
             <div class="container-fluid">
@@ -605,15 +610,15 @@
                                 <div class="row mb-2">
                                     <div class="col-10 offset-1 col-md-6 offset-md-0 px-2">
                                         <label for="firstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" name="firstName" id="firstName" value="" required>
-                                        <p class="feedback small fst-italic">
+                                        <input type="text" class="form-control" name="firstName" id="firstName" required>
+                                        <p class="feedback fname small fst-italic">
                                             
                                         </p>
                                     </div>
                                     <div class="col-10 offset-1 col-md-6 offset-md-0 px-2">
                                         <label for="lastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" name="lastName" id="lastName" value="" required>
-                                        <p class="feedback small fst-italic">
+                                        <input type="text" class="form-control" name="lastName" id="lastName" required>
+                                        <p class="feedback lname small fst-italic">
                                             
                                         </p>
                                     </div>
@@ -621,17 +626,19 @@
                                 <div class="row mb-2">
                                     <div class="col-12 px-2">
                                         <label for="email" class="form-label">Email Address</label>
-                                        <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" required>
-                                        <p id="emailHelp" class="form-text">We'll never share your email with anyone else.</p>
+                                        <input type="email" class="form-control" name="email" id="email" required>
+                                        <p class="feedback emailFeed small fst-italic">
+                                            
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="row mb-2">
                                     <div class="col-10 offset-1 col-md-6 offset-md-0 px-2">
                                         <label for="subject" class="form-label">Subject</label>
                                         <input type="text" class="form-control" name="subject" id="subject" value="" required>
-                                        <div class="valid-feedback">
-                                            Looks good!
-                                        </div>
+                                        <p class="feedback formSubject small fst-italic">
+                                            
+                                        </p>
                                     </div>
                                     <div class="col-10 offset-1 col-md-6 offset-md-0 px-2">
                                         <label for="time" class="form-label">Timestamp</label>
@@ -641,6 +648,9 @@
                                 <div class="row mb-2">
                                     <label for="bodyContact" class="form-label">Enter Your Query</label>
                                     <textarea class="form-control" name="bodyContact" id="bodyContact" rows="3" required></textarea>
+                                    <p class="feedback formBody small fst-italic">
+
+                                    </p>
                                 </div>
                                 
                                 <div class="row">
@@ -685,16 +695,24 @@
                 <div class="row top-footer">
                     <div class="col-12 offset-0 col-md-6 offset-md-3 col-lg-4 offset-lg-4 d-flex justify-content-around">
                         <div class="social-icon">
-                            <i class="fab fa-facebook-f"></i>
+                            <a href="https://facebook.com" target="_blank" rel="noreferrer noopener nofollow">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
                         </div>
                         <div class="social-icon">
-                            <i class="fab fa-twitter"></i>
+                            <a href="https://twitter.com" target="_blank" rel="noreferrer noopener nofollow">
+                                <i class="fab fa-twitter"></i>
+                            </a>
                         </div>
                         <div class="social-icon">
-                            <i class="fab fa-instagram"></i>
+                            <a href="https://instagram.com" target="_blank" rel="noreferrer noopener nofollow">
+                                <i class="fab fa-instagram"></i>
+                            </a>
                         </div>
                         <div class="social-icon">
-                            <i class="fab fa-google"></i>
+                            <a href="https://google.com" target="_blank" rel="noreferrer noopener nofollow">
+                                <i class="fab fa-google"></i>
+                            </a>
                         </div>                        
                     </div>
                 </div>
