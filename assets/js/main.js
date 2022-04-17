@@ -194,8 +194,6 @@ $('#contactBtn').click(function(event){
     
     // unsecure client side method of sanitizing a form, but for this project, this method
     // shows one way to validate a form on the client side.
-    let userCheck = false;
-
     let fname = $('#firstName').val();
     let lname = $('#lastName').val();
     let email = $('#email').val();
@@ -318,8 +316,11 @@ $('#contactBtn').click(function(event){
 
     if (firstNameCheck == true && lastNameCheck == true && emailCheck ==true && subjectCheck == true && bodyCheck == true){
         user = $('#firstName').val() + " " + $('#lastName').val();
+        email = $('#email').val();
+        subject = $('#subject').val();
+        bodyText = $('#bodyContact').val();
+        time = $('#time').val();
 
-        time = fullTime;
         url = `https://nci-ca-api.herokuapp.com/email?name=${user}&email=${email}&subject=${subject}&message=${bodyText}&time=${time}` 
         $.get(url, function(e){
             feedback = e;
