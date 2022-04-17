@@ -315,21 +315,21 @@ $('#contactBtn').click(function(event){
     bodySanitize();
 
     if (firstNameCheck == true && lastNameCheck == true && emailCheck ==true && subjectCheck == true && bodyCheck == true){
-        user = $('#firstName').val() + " " + $('#lastName').val();
-        email = $('#email').val();
-        subject = $('#subject').val();
-        bodyText = $('#bodyContact').val();
-        time = $('#time').val();
+        let user = $('#firstName').val() + " " + $('#lastName').val();
+        let email = $('#email').val();
+        let subject = $('#subject').val();
+        let bodyText = $('#bodyContact').val();
+        let time = $('#time').val();
 
         url = `https://nci-ca-api.herokuapp.com/email?name=${user}&email=${email}&subject=${subject}&message=${bodyText}&time=${time}` 
         $.get(url, function(e){
-            feedback = e;
+            let feedback = e;
             $('.form-feedback').hide();
             $('.form-feedback').text(feedback);
             $('.form-feedback').show('slide', {duration: 1500});
         });
     }else{
-        feedback = 'An error occurred. Please refresh the page and try again.';
+        let feedback = 'An error occurred. Please refresh the page and try again.';
         $('.form-feedback').hide();
         $('.form-feedback').text(feedback);
         $('.form-feedback').show('slide', {duration: 1500});
