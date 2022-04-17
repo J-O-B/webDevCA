@@ -298,7 +298,7 @@ $('#contactBtn').click(function(event){
             let bodyTextChars = checkChars(bodyText);
             if (bodyTextChars == true){
                 $('.formBody').css('color', '#00FF00').text('Message Looks Good!');
-                subjectCheck = true;
+                bodyCheck = true;
             }else if (bodyTextChars == false){
                 $('.formBody').css('color', '#FF0000').text('Illegal Character(s)');
             }
@@ -328,6 +328,11 @@ $('#contactBtn').click(function(event){
             $('.form-feedback').text(feedback);
             $('.form-feedback').show('slide', {duration: 1500});
         });
+    }else{
+        feedback = 'An error occurred. Please refresh the page and try again.';
+        $('.form-feedback').hide();
+        $('.form-feedback').text(feedback);
+        $('.form-feedback').show('slide', {duration: 1500});
     }
 });
 
