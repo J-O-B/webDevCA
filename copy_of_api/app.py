@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 from datetime import date
 from email.message import EmailMessage
 import smtplib
+import ssl
 import nltk
 import requests
 import json
@@ -25,7 +26,7 @@ cors = CORS(app, resources={"/news": {"origins": "*"},
 class status(Resource):
     def get(self):
         try:
-            return {'data': 'Running',"endpoints": ['/news']}
+            return {'data': {'status': 'Server Is Running & All Looks Good!', 'endpoints': {'home': '/', 'news':'/news', 'email': '/email', 'all_news': '/all'}}}
         except(error):
             return {'data': error}
 
@@ -144,54 +145,47 @@ class Email(Resource):
         except Exception:
             return 'Invalid Credentials'
         
-        try:
-            # Environment
-            my_email = os.environ.get('EMAIL')
-            my_pass = os.environ.get('PASSWORD')
-            admin_email = os.environ.get('ADMIN')
-        except Exception:
-            return 'Environment Error'
+        feedback = ''
+        # Environment
+        my_email = os.environ.get('EMAIL')
+        my_pass = os.environ.get('PASSWORD')
+
+        confirmation = f'Good day {data["User"]},\n Thank you for your enquiry sent at {data["Time"]}. We will respond to you with an answer in the coming days. A copy of your message:\n\nFrom: {data["User"]}\nTo: SecureX Team\nSubject: {data["Subject"]}\n\nMessage: {data["Message"]}\n\n\nRegards,\nSecureX Team'
         
+        smpt_server = 'smtp.gmail.com'
+        port = 587
+        sender_email = my_email
+        receiver_email = user_email
+        password = my_pass
+        message = confirmation
+
+
+        context = ssl.create_default_context()
+
         try:
-            # To customer
-            confirmation = f'Good day {data["User"]},\n Thank you for your enquiry sent from our website. We will respond to you with an answer in the coming days.\n\nRegards,\nSecureX Team'
-            message = EmailMessage()
-            message.set_content(confirmation)
-
-            message['Subject'] = "Confirmation Email - SecureX"
-            message['From'] = my_email
-            message['To'] = user_email
-
             server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            server.login(my_email, my_pass)
-            server.send_message(message)
-            server.quit()
-            # To Admin
-            admin_message = f"""
-    A new message was sent from SecureX, a customer named {data['Name']} sent the following:\n
-    From: {data['Email']},\n
-    At: {data['Time']}
-    Subject: {data['Subject']},\n
-    Message: {data['Message']}.\n\n
-    Please Respond To This Customer When You Can.
-                    """
-            message.set_content(admin_message)
-            message['Subject'] = "Contact Form - SecureX"
-            message['From'] = my_email
-            message['To'] = admin_email
-            server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
-            server.login(my_email, my_pass)
-            server.send_message(message)
-            server.quit()
-            return 'Message Sent'
+            server.ehlo_or_helo_if_needed()
+            server.login(sender_email, password)
+            server.sendmail(sender_email, receiver_email, message)
+            server.close()
+            return 'Thank You For Your Message! A Copy Has Been Sent To Your Email For Your Records. We Will Be In Contact Soon.'
+        except Exception as e:
+            return 'There was an error sending your message. Please try again later.'
+        
+      
 
-        except Exception:
-            # Email Confirmation failed
-            return 'An Error Occurred & A Notice Has Been Sent To The Administrator'
+class All(Resource):
+    def get(self):
+        data = ''
+        with open('news.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            f.close()
+        return data
 
 api.add_resource(status, '/', endpoint='home')
 api.add_resource(News, '/news', endpoint='news')
 api.add_resource(Email, '/email', endpoint='email')
+api.add_resource(All, '/all', endpoint='all')
 
 
 if __name__ == '__main__':
