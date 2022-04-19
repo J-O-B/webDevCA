@@ -91,7 +91,7 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
         news = news + `
         <div class="col-12 col-md-6 col-lg-3 outer-article text-center my-3 px-2 d-flex justify-content-center align-items-center">
             <div class="row px-2 py-3 m-3 article">
-                <img class="newsImg" src="${img}">
+                <img class="newsImg" src="${img}" loading="lazy" alt="${title}">
                 <h5 class="small">${title}</h3>
                 <cite class="small">Author:<br>${author}</cite><br>
                 <cite class="small">Published:<br>${date}</cite><br>
@@ -353,9 +353,9 @@ let map = L.map('map', {
     pinControl: true,
     guideLayers: [],
 });
-let url = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+let url = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 let attribution =
-    'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+    'Map data © <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
 let options = new L.TileLayer(url, {
     minZoom: 4,
     maxZoom: 18,
