@@ -380,9 +380,9 @@ let options = new L.TileLayer(url, {
 let myIcon = L.icon({
     iconUrl: 'assets/media/pin.png',
     shadowUrl: 'assets/media/shadow.png',
-    iconSize: [40, 55],
+    iconSize: [34.1, 55],
     iconAnchor: [20, 54],
-    shadowSize: [50, 40],
+    shadowSize: [66.4, 40],
     shadowAnchor: [-3, 40],
 });
 let maker = L.marker([53.34894043391136, -6.242988972456376],{icon: myIcon}).addTo(map);
