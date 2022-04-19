@@ -139,9 +139,9 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
         </div>`;
     }
     // Styling related, when loaded hide the gif loader and show news
-    $('#newsLoad').hide('fade', {duration: 500});
+    $('#newsLoad').hide(500);
     $('#newsLoad').promise().done(function(){
-        $('#newsStories').html(news).show('fade', {duration: 1500});
+        $('#newsStories').html(news).show(1500);
         equalNewsHeight();
     });
 });
@@ -160,25 +160,25 @@ function equalNewsHeight(){
 
 function fullNews(id){
     // This function will hide the 'summary news' and display the 'full news article'
-    $(`.newsSummaryModal${id}`).hide('fade', {duration: 500});
+    $(`.newsSummaryModal${id}`).hide(500);
     $(`.newsSummaryModal${id}`).promise().done(function(){
         $(`.newsSummaryModal${id}`).toggleClass('hidden');
         $(`.newsFullModal${id}`).hide();
         $(`.newsFullModal${id}`).promise().done(function(){
             $(`.newsFullModal${id}`).toggleClass('hidden');
-            $(`.newsFullModal${id}`).show('fade', {duration: 1000});
+            $(`.newsFullModal${id}`).show(1000);
         });
     });
 };
 function summaryNews(id){
     // This function will hide the full news article and display the short summary version.
-    $(`.newsFullModal${id}`).hide('fade', {duration: 500});
+    $(`.newsFullModal${id}`).hide(500);
     $(`.newsFullModal${id}`).promise().done(function(){
         $(`.newsFullModal${id}`).toggleClass('hidden');
         $(`.newsSummaryModal${id}`).hide();
         $(`.newsSummaryModal${id}`).promise().done(function(){
             $(`.newsSummaryModal${id}`).toggleClass('hidden');
-            $(`.newsSummaryModal${id}`).show('fade', {duration: 1000});
+            $(`.newsSummaryModal${id}`).show(1000);
         });
     });
 };
@@ -335,13 +335,13 @@ $('#contactBtn').click(function(event){
             let feedback = e;
             $('.form-feedback').hide();
             $('.form-feedback').text(feedback);
-            $('.form-feedback').show('slide', {duration: 1500});
+            $('.form-feedback').show(1500);
         });
     }else{
         let feedback = 'An error occurred. Please refresh the page and try again.';
         $('.form-feedback').hide();
         $('.form-feedback').text(feedback);
-        $('.form-feedback').show('slide', {duration: 1500});
+        $('.form-feedback').show(1500);
     }
 });
 
@@ -423,23 +423,23 @@ function pricing(item){
         userWants = 'corporate';
     };
     let height = $('#pricingCardRow').height();
-    $('#pricingCardRow').hide('slide', {duration: 500});
+    $('#pricingCardRow').hide(500);
     $('#pricingCardRow').promise().done(function(){
         $('.priceTarget').html(textHtml);
         thisMarginTop = (height - $('#pricingContent').height()) / 2;
         $('#pricingContent').css('padding-top', thisMarginTop + 'px');
         $('#pricingContent').css('height', height + 'px');
         $('#pricingContent').css('overflow', 'hidden');
-        $('#pricingContent').show('slide', {duration: 1000});
+        $('#pricingContent').show(1000);
     });
 };
 // back button in pricing
 function backPricing(){
-    $('#pricingContent').hide('slide', {duration: 1000});
+    $('#pricingContent').hide(1000);
     $('#pricingContent').promise().done(function(){
         $('.priceTarget').html('');
         $('.priceTarget').promise().done(function(){
-            $('#pricingCardRow').show('slide', {duration: 1500});
+            $('#pricingCardRow').show(1500);
         });
     });
 };
@@ -468,20 +468,20 @@ function features(item){
     }
     icHeight = $('.icons').height();
     $('.feat_image').parents('.col-6').each(function(index){
-        $(this).delay(100 * index).hide('slide', {duration: 300});
+        $(this).delay(100 * index).hide(300);
     }).promise().then(function(){
         $('#featureHeader').text(data[item][0]);
         $('#featureBody').text(data[item][1]);
         rowHeight = ($('#featureHeader').height() + $('#featureBody').height());
         featMargin = (icHeight - rowHeight) / 2;
         $('#featureHeader').css('margin-top', featMargin+'px');
-        $('#featureHeader').show('fade', {duration: 1000});
-        $('#featureBody').show('fade', {duration: 1000});
-        $('.featBack').show('slide', {duration: 500});
+        $('#featureHeader').show(1000);
+        $('#featureBody').show(1000);
+        $('.featBack').show(500);
     });
 }
 function backFeat(){
-    $('.featBack').hide('fade');
+    $('.featBack').hide();
     $('.featBack').promise().then(function(){
         $('#featureBody').hide();
         $('#featureHeader').hide();
