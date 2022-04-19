@@ -89,9 +89,11 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
         
         // Output using bootstrap classes and dynamic ID's & classes
         news = news + `
-        <div class="col-12 col-md-6 col-lg-3 outer-article text-center my-3 px-2 d-flex justify-content-center align-items-center">
+        <div class="col-12 col-md-6 col-lg-3 outer-article text-center my-3 d-flex justify-content-center align-items-center">
             <div class="row px-2 py-3 m-3 article">
-                <img class="newsImg" src="${img}" loading="lazy" alt="${title}">
+                <div class="imgContain">
+                    <img class="newsImg" src="${img}" loading="lazy" alt="${title}">
+                </div>
                 <h5 class="small">${title}</h3>
                 <cite class="small">Author:<br>${author}</cite><br>
                 <cite class="small">Published:<br>${date}</cite><br>
@@ -110,7 +112,9 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-10 offset-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-                                        <img class="modalNewsImg" src="${img}">
+                                        <div class="modalNewsImgContain">
+                                            <img class="img-fluid" src="${img}">
+                                        </div>
                                         <p class="small text-center">
                                             Post From ${author} At <a href="${url}" target="_blank" rel="noreferrer noopener">TheHackerNews.com</a>
                                         </p>
@@ -143,8 +147,20 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
     $('#newsLoad').promise().done(function(){
         $('#newsStories').html(news).show(1500);
         equalNewsHeight();
+        centerNewsImage();
     });
 });
+// Function to center the image in cards
+function centerNewsImage(){
+    let windowWidth = $('.imgContain').width();
+    $('.newsImg').each(function(){
+        thisWidth = $(this).width();
+        marginLeft = (windowWidth - thisWidth) / 3;
+        $(this).css('margin-left', '-' + marginLeft + 'px');
+    });
+}
+
+
 // Simple function to dynamically apply css to news cards.
 let newsHeight = 0;
 function equalNewsHeight(){
