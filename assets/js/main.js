@@ -94,7 +94,7 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
                 <div class="imgContain">
                     <img class="newsImg" src="${img}" loading="lazy" alt="${title}">
                 </div>
-                <h5 class="small">${title}</h3>
+                <h3 class="small">${title}</h3>
                 <cite class="small">Author:<br>${author}</cite><br>
                 <cite class="small">Published:<br>${date}</cite><br>
                 <button type="button" class="btn custNewsBtn" data-bs-toggle="modal" data-bs-target="#example${i}Modal">
@@ -106,7 +106,7 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
                     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="example${i}ModalLabel">${title}</h5>
+                                <h4 class="modal-title" id="example${i}ModalLabel">${title}</h4>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
