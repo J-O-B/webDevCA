@@ -287,7 +287,7 @@ nav a{
 
 /* Effects & Other */
 .blink{
-    animation: blinking .7s linear infinite;
+    animation: blinking .9s linear infinite;
 }
 @keyframes blinking{
     50%{

@@ -1,16 +1,6 @@
-# SecureX
-
-## *This website is for educational demonstration purposes only.*
-
-## *Introduction:*
-This web application uses HTML, CSS and JavaScript. This includes:
-- Bootstrap 5
-- Fontawsome
-- jQuery
-- jQueryUI
-- Leaflet.js
-
-Full documentation has been provided privately to the examiner.
+<p align=center><img src='./assets/media/logo.png'></p>
+<h2 align=center>Web Development Project</h2>
+<hr>
 
 ## *Attribution:*
 - News articles are pulled from thehackernews.com

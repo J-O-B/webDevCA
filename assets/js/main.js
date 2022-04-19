@@ -1,5 +1,5 @@
-// On Load 
-$(document).ready(function(){
+// On Load Event In Vanilla JS
+document.addEventListener("DOMContentLoaded", function() {
     $('#pricingContent').hide();
     $('.featBack').hide();
     $('.featureText').hide();
@@ -8,56 +8,65 @@ $(document).ready(function(){
     typewrite();
 });
 
-// Generic function to use like python sleep function.
 function sleep(milliseconds) {
+    // This function has the same functionality as time.sleep in python, 
+    // It will delay depending on the milliseconds variable.
     const date = Date.now();
     let currentDate = null;
     do {
       currentDate = Date.now();
     } while (currentDate - date < milliseconds);
+    return
 };
 
+
 // ------------------------------------------ Hero section
-// Center the hero card
+
 function heroCardCenter(){
+    // This function will find the height of the Hero section and 
+    // apply a margin to the top of the target element.
     heroHeight = $('#hero').height();
     boxHeight = $('#herocard').height();
     marginTop = (heroHeight - boxHeight) / 2;
     $('#herocard').css('margin-top', marginTop + 'px');
 };
-// Animated hero text
+
 function typewrite(){
-    // Text blobs we want to feed into the function.
+    // This function provides the typewriter effect in the hero section.
+    // The options array stores the strings to output. Now one letter at a time 
+    // we can add, or remove characters. This gives the animation effect of typing.
+    // The span with class 'blink' uses CSS keyframes for its animation.
     let options = ['Vulnerability Assessment', 'Threat Modelling', 'Malware Analysis', 'Penetration Testing', 'Mobile Security', 'Email Security', 'CyberSecurity Solutions'];
     let textPos = 0;
     let speedWrite = 150;
     let speedRemove = 100;
 
-    // Variable Item will be used to select sections of options array
+    // Item relates to options[item], from here we can add animation effects to that item.
     let item = 0;
     function write(){
-        $('.typewrite').html(options[item].substring(0, textPos) + '<span class="blink">_<span>');
-        // If we are removing
+        // This inner function will add characters one by one
+        $('.typewrite').html(options[item].substring(0, textPos) + '<span class="blink small">█<span>');
         if (textPos ++ != options[item].length + 1){
+            sleep(50);
             setTimeout(write, speedWrite);
         }else{
             if (item < 6){
-                sleep(1500);
                 remove();
             }
         }
     };
     function remove(){
-        $('.typewrite').html(options[item].substring(textPos, 0) + '<span class="blink">_<span>');
+        // Inner function that will remove characters one by one
+        $('.typewrite').html(options[item].substring(textPos, 0) + '<span class="blink small">█<span>');
         if (textPos -- != -1){
+            sleep(25);
             setTimeout(remove, speedRemove);
         }else{
             item += 1;
-            sleep(300);
             write();
         }
     };
-    // Call the inner function to start
+    // Initiate the inner functions.
     write();
 };
 
@@ -413,12 +422,15 @@ function pricing(item){
         </p>`;
         userWants = 'corporate';
     };
+    let height = $('#pricingCardRow').height();
     $('#pricingCardRow').hide('slide', {duration: 500});
     $('#pricingCardRow').promise().done(function(){
         $('.priceTarget').html(textHtml);
-        $('.priceTarget').promise().done(function(){
-            $('#pricingContent').show('slide', {duration: 1000});
-        });
+        thisMarginTop = (height - $('#pricingContent').height()) / 2;
+        $('#pricingContent').css('padding-top', thisMarginTop + 'px');
+        $('#pricingContent').css('height', height + 'px');
+        $('#pricingContent').css('overflow', 'hidden');
+        $('#pricingContent').show('slide', {duration: 1000});
     });
 };
 // back button in pricing
@@ -469,22 +481,18 @@ function features(item){
     });
 }
 function backFeat(){
-    $('.featBack').hide('slide', {duration: 500});
+    $('.featBack').hide('fade');
     $('.featBack').promise().then(function(){
-        $('#featureBody').hide('fade', {duration: 1000});
-        $('#featureBody').promise().then(function(){
-            $('#featureHeader').hide('fade', {duration: 1000});
-        });
+        $('#featureBody').hide();
+        $('#featureHeader').hide();
+        $('#featureHeader').text('');
+        $('#featureBody').text('');
     });
-    // remove content
-    $('#featureHeader').text('');
-    $('#featureBody').text('');
 
     // show icons
-    $('.feat_image').parents('.col-6').each(function(index){
+    $('.feat_image').parents('.col-6').each(function(){
         $(this).show(800);
-    })
-
+    });
 }
 
 function featureHeight(){
