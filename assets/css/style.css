@@ -201,20 +201,29 @@ nav a{
 }
 
 .imgContain{
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
+    border-radius: 50px 50px 5px 5px;
     height: 200px;
     padding-left: 20px;
     padding-right: 20px;
     max-width:100%;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0px 0px 10px #1cb5e0;
+    opacity: .6;
+    transition: all 1s ease-in-out;
 }
 .newsImg{
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
+    border-radius: 50px 50px 5px 5px;
     height:200px;
     width: auto;
 }
+.outer-article:hover .imgContain{
+    opacity: 1;
+    transition: all .5s ease-in-out;
+}
+
 .modalNewsImgContain{
     max-width: 100%;
     max-height: 200px;
@@ -237,14 +246,14 @@ nav a{
     width:100%;
     margin: 10px;
     padding:10px;
-    box-shadow: 5px 5px 5px rgba(0,0,0,0.3), 10px 10px 20px rgba(0,0,0,0.3), 0px 0px 50px rgba(0,0,0,0.3);
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.3), 10px 10px 20px rgba(0,0,0,0.3), 0px 0px 50px rgba(0,0,0,0.3), inset 0px 0px 20px #1cb5e0;
     border-radius: 50px;
     background: rgb(25,25,25);
     color: #1cb5e0;
     transition: all 1s ease-out;
 }
 .article:hover{
-    box-shadow: 3px 3px 3px #1cb5e0, 5px 5px 10px rgba(0,0,0,0.2), 0px 0px 50px #1cb5e0;
+    box-shadow: 3px 3px 3px #1cb5e0, 5px 5px 10px rgba(0,0,0,0.2), 0px 0px 50px #1cb5e0, inset 0px 0px 5px #1cb5e0;
     transition: all .3s ease-in-out;
 }
 .article .modal{

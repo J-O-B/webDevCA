@@ -1,10 +1,8 @@
-// On Load Event In Vanilla JS
 document.addEventListener("DOMContentLoaded", function() {
     $('#pricingContent').hide();
     $('.featBack').hide();
     $('.featureText').hide();
     heroCardCenter();
-    featureHeight();
     typewrite();
 });
 
@@ -147,18 +145,9 @@ $.getJSON('https://nci-ca-api.herokuapp.com/news', function(data){
     $('#newsLoad').promise().done(function(){
         $('#newsStories').html(news).show(1500);
         equalNewsHeight();
-        centerNewsImage();
     });
 });
-// Function to center the image in cards
-function centerNewsImage(){
-    let windowWidth = $('.imgContain').width();
-    $('.newsImg').each(function(){
-        thisWidth = $(this).width();
-        marginLeft = (windowWidth - thisWidth) / 3;
-        $(this).css('margin-left', '-' + marginLeft + 'px');
-    });
-}
+
 
 
 // Simple function to dynamically apply css to news cards.
@@ -228,17 +217,18 @@ $('#contactBtn').click(function(event){
     function checkChars(data){
         // simple reusable function to check for illegal chars (whitelist method)
         allowed = "abcdefghijklmnopqrstuvwxyz 0123456789 '-,.@+&";
-        good = '';
         bad = '';
         for (i=0; i<data.length; i++){
+            // to compare like with like, we must only look at lowercase characters
             char = data[i].toLowerCase();
             for (a=0; a<allowed.length;a++){
-                if (allowed.includes(char) == true){
-                    good = good + char;
-                }else{
+                // if a character is not in the allowed characters string (whitelisting) append the item into a new string
+                if (allowed.includes(char) != true){
                     bad = bad + char;
                 }
             }
+            // if the length of the string with any illegal characters is not equal to 0, then illegal characters exist,
+            // return false, else, return true at the end of loop.
             if (bad.length != 0){
                 return false
             }
@@ -246,13 +236,15 @@ $('#contactBtn').click(function(event){
         return true
     }
 
+    // Variables to track if checks are satisfactory, for these variables to change to true
+    // all characters must be allowed, and other verification criteria (such as an @ sign in email) is satisfactory.
     let firstNameCheck = false;
     let lastNameCheck = false;
     let emailCheck = false;
     let subjectCheck = false;
     let bodyCheck = false;
     
-    // individual functions on each input field
+    // Individual functions on each input field
     function firstNameSanitize(){
         if (fname.length > 2){
             // length is ok, now check chars
@@ -312,7 +304,7 @@ $('#contactBtn').click(function(event){
                 $('.formSubject').css('color', '#FF0000').text('Illegal Character(s)');
             }
         }else{
-            // name is short, fail.
+            // subject is empty.
             $('.formSubject').css('color', '#FF0000').text('Subject Cannot Be Empty');
         }
     }
@@ -328,17 +320,19 @@ $('#contactBtn').click(function(event){
                 $('.formBody').css('color', '#FF0000').text('Illegal Character(s)');
             }
         }else{
-            // too short, fail.
+            // message input was empty.
             $('.formBody').css('color', '#FF0000').text('Message Input Cannot Be Empty');
         }
     }
-    // call functions
+    // call the functions
     firstNameSanitize();
     lastNameSanitize();
     emailSanitize();
     subjectSanitize();
     bodySanitize();
 
+    // If all criteria is met, then pass data to API for email, return API feedback to user.
+    // Else, do not send data, provide failed message to user.
     if (firstNameCheck == true && lastNameCheck == true && emailCheck ==true && subjectCheck == true && bodyCheck == true){
         let user = $('#firstName').val() + " " + $('#lastName').val();
         let email = $('#email').val();
@@ -490,10 +484,20 @@ function features(item){
         $('#featureBody').text(data[item][1]);
         rowHeight = ($('#featureHeader').height() + $('#featureBody').height());
         featMargin = (icHeight - rowHeight) / 2;
-        $('#featureHeader').css('margin-top', featMargin+'px');
-        $('#featureHeader').show(1000);
-        $('#featureBody').show(1000);
-        $('.featBack').show(500);
+        windowSize = window.width;
+        if (windowSize < 900){
+            featureHeight();
+            $('#featureHeader').css('margin-top', featMargin+'px');
+            $('#featureHeader').show(1000);
+            $('#featureBody').show(1000);
+            $('.featBack').show(500);
+        }else{
+            scrollTarget = document.getElementById('features');
+            scrollTarget.scrollIntoView(200);
+            $('#featureHeader').show(1000);
+            $('#featureBody').show(1000);
+            $('.featBack').show(500);
+        }
     });
 }
 function backFeat(){
@@ -501,6 +505,7 @@ function backFeat(){
     $('.featBack').promise().then(function(){
         $('#featureBody').hide();
         $('#featureHeader').hide();
+        // Reset the content to empty.
         $('#featureHeader').text('');
         $('#featureBody').text('');
     });
